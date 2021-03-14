@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Simple calculator</h1>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <div id="calculator" class="row">
+            <input type="text" id="result" class="form-control result col-12" readonly placeholder="0" value="">
+            <button class="btn btn-default col-6" data-value="c">c</button>
+            <button class="btn btn-default col-3" data-value="<-"><-</button>
+            <button class="btn btn-default col-3" data-value="+">+</button>
+            <button class="btn btn-default col-3" data-value="1">1</button>
+            <button class="btn btn-default col-3" data-value="2">2</button>
+            <button class="btn btn-default col-3" data-value="3">3</button>
+            <button class="btn btn-default col-3" data-value="-">-</button>
+            <button class="btn btn-default col-3" data-value="4">4</button>
+            <button class="btn btn-default col-3" data-value="5">5</button>
+            <button class="btn btn-default col-3" data-value="6">6</button>
+            <button class="btn btn-default col-3" data-value="*">*</button>
+            <button class="btn btn-default col-3" data-value="7">7</button>
+            <button class="btn btn-default col-3" data-value="8">8</button>
+            <button class="btn btn-default col-3" data-value="9">9</button>
+            <button class="btn btn-default col-3" data-value="/">/</button>
+            <button class="btn btn-default col-3" data-value="0">0</button>
+            <button class="btn btn-default col-3" data-value="000">000</button>
+            <button class="btn btn-default col-3" data-value=".">.</button>
+            <button class="btn btn-default col-3" data-value="=">=</button>
+        </div>
+    </section>
+    <section class="conteiner">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary" id="show">Show history</button>
+            <button type="button" class="btn btn-danger" id="reset">Reset history</button>
+        </div>
+        <div id="historyWrap"  class="history-wrap hidden">
+            <code id="tmp">History is empty.</code>
+            <pre><code id="history"></code></pre>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
