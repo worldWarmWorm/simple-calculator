@@ -101,6 +101,11 @@ button {
     background-color: #fff;
 }
 
+.light .history-wrap {
+    background-color: #fff;
+    border: 2px solid #f1f1f1;
+}
+
 .form-control[readonly] {
     background-color: rgba(1, 4, 9, .3);
     color: #c9d1d9;
@@ -200,5 +205,13 @@ button {
     transition: .5s all;
 }
 
+.py-5 {
+    padding-top: 6rem !important;
+}
 
+@media (max-width: 575px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+}
 
