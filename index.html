@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="light">
+    <div class="tumbler">
+        <input id="tumbler" type="checkbox">
+    </div>
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
@@ -21,7 +24,8 @@
     <section class="container">
         <div id="calculator" class="row">
             <input type="text" id="result" class="form-control result col-12" readonly placeholder="0" value="">
-            <button class="btn btn-default col-6" data-value="c">c</button>
+            <button class="btn btn-default col-3" data-value="c">c</button>
+            <button class="btn btn-default col-3" data-value="%">%</button>
             <button class="btn btn-default col-3" data-value="<-"><-</button>
             <button class="btn btn-default col-3" data-value="+">+</button>
             <button class="btn btn-default col-3" data-value="1">1</button>
@@ -42,13 +46,13 @@
             <button class="btn btn-default col-3" data-value="=">=</button>
         </div>
     </section>
-    <section class="conteiner">
+    <section class="conteiner consoles">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-info" id="show">Show history</button>
-            <button type="button" class="btn btn-info" id="reset">Reset history</button>
+            <button type="button" class="btn history-btn" id="history-btn">History</button>
+            <button type="button" class="btn reset-btn" id="reset-btn">Reset history</button>
         </div>
         <div id="historyWrap"  class="history-wrap hidden">
-            <code id="tmp">History is empty.</code>
+            <code class="history-default-label">History is empty.</code>
             <pre><code id="history"></code></pre>
         </div>
     </section>
