@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         simbols = ['<-', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '000'],
         toggleHistoryBtn = document.getElementById('history-btn'),
         resetHistoryBtn = document.getElementById('reset-btn'),
-        theme = document.getElementById('theme'),
+        themeTumbler = document.getElementById('themeTumbler'),
         lineNumber = 0,
         soundClick = () => {
             let audio = new Audio('./sounds/click.mp3');
@@ -93,16 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    theme.addEventListener('click', () => {
-        let themeClass = document.body.classList;
-        if (themeClass.contains('dark')) {
+    themeTumbler.addEventListener('click', () => {
+        let themeTumblerClass = document.body.classList;
+        if (themeTumblerClass.contains('dark')) {
             soundLight();
-            themeClass.remove('dark');
-            themeClass.add('light');
+            themeTumblerClass.remove('dark');
+            themeTumblerClass.add('light');
         } else {
             soundDark();
-            themeClass.remove('light');
-            themeClass.add('dark');
+            themeTumblerClass.remove('light');
+            themeTumblerClass.add('dark');
         }
     });
 });
