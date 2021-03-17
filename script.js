@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let audio = new Audio('./sounds/error.mp3');
             return audio.play();
         },
-        soundScroll = () => {
-            let audio = new Audio('./sounds/scroll.mp3');
+        soundHistory = () => {
+            let audio = new Audio('./sounds/history.mp3');
             return audio.play();
         },
         soundReset = () => {
@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!isFinite(res.value)) {
                     soundError();
                     setTimeout(() => {
-                        return window.confirm('Error:\n Deviding on 0 dosn\'t make since');
-                    }, 100);
+                        return window.confirm('Error:\n Deviding on 0 dosn\'t make sense');
+                    }, 200);
                     res.value = '';
                 }
             }
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     toggleHistoryBtn.addEventListener('click', (e) => {
         let wrap = document.getElementById('historyWrap');
-        soundScroll();
+        soundHistory();
         wrap.classList.contains('hidden') ?
             wrap.classList.remove('hidden') :
             wrap.classList.add('hidden');
