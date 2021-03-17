@@ -6,10 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
         simbols = ['<-', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '000'],
         toggleHistoryBtn = document.getElementById('history-btn'),
         resetHistoryBtn = document.getElementById('reset-btn'),
-        tumbler = document.getElementById('tumbler');
+        tumbler = document.getElementById('tumbler'),
+        lineNumber = 0;
 
     keys.forEach((el) => {
         el.addEventListener('click', () => {
+
             let val = el.getAttribute('data-value');
             if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') res.value += val;
 
@@ -28,11 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             historyDefaultLabel.style.display = 'none';
-
             function press(simbols) {
                 simbols.forEach((simbol) => {
                     if (val === simbol) {
-                        history.innerHTML += `Pressed "${val}"\n`;
+                        lineNumber++;
+                        console.log(lineNumber);
+                        history.innerHTML += `${lineNumber}| Pressed "${val}"\n`;
+                    }
+                    if (!history.innerHTML) {
+                        resetHistoryBtn.classList.remove('blocked-btn');
                     }
                 });
             }
@@ -53,16 +59,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (answer) {
             historyDefaultLabel.style.display = 'initial';
             history.innerHTML = '';
+            resetHistoryBtn.classList.add('blocked-btn');
+            lineNumber = 0;
         }
     });
 
     tumbler.addEventListener('click', () => {
-        if (document.body.classList.contains('dark')) {
-            document.body.classList.remove('dark');
-            document.body.classList.add('light');
+        let tumblerClass = document.body.classList;
+        if (tumblerClass.contains('dark')) {
+            tumblerClass.remove('dark');
+            tumblerClass.add('light');
         } else {
-            document.body.classList.remove('light')
-            document.body.classList.add('dark')
+            tumblerClass.remove('light');
+            tumblerClass.add('dark');
         }
     });
 });
