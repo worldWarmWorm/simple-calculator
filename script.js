@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.btn-default'),
         document.getElementById('result'),
         document.getElementById('history'),
-        document.querySelector('.history-default-label'),
         document.getElementById('history-btn'),
         document.getElementById('reset-btn'),
         document.getElementById('themeTumbler')
@@ -18,8 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     calc.keys.forEach((el) => {
         el.addEventListener('click', () => {
             let val = el.getAttribute('data-value');
-
-            calc.makeSounds(calc.sounds.click);
 
             if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
                 calc.res.value += val;
@@ -48,9 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // calc.historyDefaultLabel.style.display = 'none';
-
             calc.pressKeys(calc.simbols, val);
+            calc.makeSounds(calc.sounds.click);
         });
     });
 

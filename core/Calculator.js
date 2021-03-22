@@ -1,32 +1,33 @@
 class Calculator {
     constructor(
-        keys = [],
         // Кнопки клавиатуры
+        keys = [],
 
-        res = '',
         // Табло результата
+        res = '',
 
-        history = '',
         // История нажатых клавиш
+        history = '',
 
-        historyDefaultLabel = 'History is empty.',
-        // Заголовок истории по умолчанию
-
-        toggleHistoryBtn = null,
         // Кнопка показа/скрытия истории
+        toggleHistoryBtn = null,
 
-        resetHistoryBtn = null,
         // Кнопка очистки истории
+        resetHistoryBtn = null,
 
-        themeTumbler = null,
         // Кнопка переключения темы
+        themeTumbler = null,
 
-        lineNumber = 0,
+        // Заголовок истории по умолчанию
+        historyDefaultLabel = 'History is empty.',
+
         // Начальный номер строки истории
+        lineNumber = 0,
 
-        simbols = ['<-', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '000'],
         // Символы клавиш
+        simbols = ['<-', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '000'],
 
+        // Звуки калькулятора
         sounds = {
             click: './sounds/click.mp3',
             error: './sounds/error.mp3',
@@ -35,13 +36,12 @@ class Calculator {
             dark: './sounds/dark.mp3',
             light: './sounds/light.mp3'
         },
-        // Звуки калькулятора
 
+        // themes - стандартные названия классов для темы калькулятора
         themes = {
             ligth: 'light',
             dark: 'dark'
         }
-        // themes - стандартные названия классов для темы калькулятора
     ) {
         this.keys = keys;
         this.res = res;
@@ -57,22 +57,32 @@ class Calculator {
         this.themes = themes;
     }
 
-    setDefaultHistoryLabel(label = this.historyDefaultLabel) {
-        this.history.innerHTML = label;
+    setDefaultHistoryLabel(defaultLabel = this.historyDefaultLabel) {
+        this.history.innerHTML = defaultLabel;
     }
 
+    resetDefaultHistoryLabel() {
+        this.history.innerHTML = '';
+    }
+
+    // sound - путь до файла звука
     makeSounds(sound) {
         let audio = new Audio(sound);
         return audio.play();
     }
 
+    // simbols - массив символов на клавиатуре
     pressKeys(simbols, val) {
         simbols.forEach((simbol) => {
+            if(this.lineNumber === 0) {
+                this.resetDefaultHistoryLabel();
+            }
             if (val === simbol) {
+                this.defaultLabel = '';
                 this.lineNumber++;
                 this.history.innerHTML += `${this.lineNumber}| Pressed "${val}"\n`;
             }
-            if (!this.history.innerHTML) {
+            if (this.history.innerHTML) {
                 this.resetHistoryBtn.classList.remove('blocked-btn');
             }
         });
@@ -92,9 +102,8 @@ class Calculator {
     resetHistory(ask) {
         this.resetHistoryBtn.addEventListener('click', () => {
             let answer = window.confirm(ask);
-            if (answer) {
-                // this.historyDefaultLabel.style.display = 'initial';
-                this.history.innerHTML = '';
+            if (answer && this.res) {
+                this.setDefaultHistoryLabel();
                 this.resetHistoryBtn.classList.add('blocked-btn');
                 this.lineNumber = 0;
                 this.makeSounds(this.sounds.reset);
