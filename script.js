@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('history'),
         document.getElementById('history-btn'),
         document.getElementById('reset-btn'),
-        document.getElementById('themeTumbler')
+        document.getElementById('themeTumbler'),
+        document.getElementById('soundTumbler')
     ),
     wrap = document.getElementById('historyWrap'),
     ask = 'Are you sure you want to delete history?';
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 calc.res.value = '';
             }
 
-            if (val === '<-') {
+            if (val === '') {
                 calc.res.value = calc.res.value.slice(0, -1);
             }
 
@@ -39,13 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!isFinite(calc.res.value)) {
                     calc.makeSounds(calc.sounds.error);
                     setTimeout(() => {
-                        return window.confirm('Error:\n recived too large number or deviding on 0');
+                        return window.confirm('Error:\n recived too large number or set deviding on 0');
                     }, 200);
                     calc.res.value = '';
                 }
             }
 
-            calc.pressKeys(calc.simbols, val);
+            calc.pressButtons(calc.simbols, val);
             calc.makeSounds(calc.sounds.click);
         });
     });
@@ -53,4 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
     calc.toggleHistory(wrap);
     calc.resetHistory(ask);
     calc.themeSwitch();
+    calc.soundModeSwitch();
+    calc.presskeybord();
 });

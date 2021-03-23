@@ -140,10 +140,16 @@ button {
     box-shadow: inset 0 0 0 1px rgba(56, 139, 253, .4);
 }
 
-.tumbler {
+.tumbler-theme {
     position: absolute;
     top: 15px;
     right: 15px;
+}
+
+.tumbler-sound {
+    position: absolute;
+    top: 15px;
+    left: 15px;
 }
 
 .tumbler input[type="checkbox"] {

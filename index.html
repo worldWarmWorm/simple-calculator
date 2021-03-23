@@ -11,8 +11,13 @@
 </head>
 
 <body class="light">
-    <div class="tumbler">
+    <div class="tumbler tumbler-theme">
+        Светлая/Темная тема
         <input id="themeTumbler" type="checkbox">
+    </div>
+    <div class="tumbler tumbler-sound">
+        Вкл/Откл звук
+        <input id="soundTumbler" type="checkbox" data-sound-mode="sound">
     </div>
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
@@ -26,7 +31,7 @@
             <input type="text" id="result" class="form-control result col-12" readonly placeholder="0" value="">
             <button class="btn btn-default col-3" data-value="c">c</button>
             <button class="btn btn-default col-3" data-value="%">%</button>
-            <button class="btn btn-default col-3" data-value="<-"><-</button>
+            <button class="btn btn-default col-3" data-value="<"><</button>
             <button class="btn btn-default col-3" data-value="+">+</button>
             <button class="btn btn-default col-3" data-value="1">1</button>
             <button class="btn btn-default col-3" data-value="2">2</button>
