@@ -1,39 +1,36 @@
 class Calculator {
+    /**
+     * 
+     * @param {*} buttons - Кнопки клавиатуры
+     * @param {*} res - Табло результата
+     * @param {*} history - История нажатых клавиш
+     * @param {*} toggleHistoryBtn - Кнопка показа/скрытия истории
+     * @param {*} resetHistoryBtn - Кнопка очистки истории
+     * @param {*} themeTumbler - Кнопка переключения темы
+     * @param {*} soundModeTumbler - Кнопка переключения звуковых режимов
+     * @param {*} wrap - контейнер для истории
+     * @param {*} historyDefaultLabel - Заголовок истории по умолчанию
+     * @param {*} lineNumber - Начальный номер строки истории
+     * @param {*} simbols - Символы клавиш
+     * @param {*} eventKeys - Массив ключей объекта события keydown
+     * @param {*} sounds - Звуки калькулятора
+     * @param {*} themes - Стандартные названия классов для темы калькулятора
+     * @param {*} soundModes - Режимы звука
+     * @param {*} ask - Сообщение во всплывающем окне при очистке истории
+     */
     constructor(
-        // Кнопки клавиатуры
         buttons = [],
-
-        // Табло результата
         res = '',
-
-        // История нажатых клавиш
         history = '',
-
-        // Кнопка показа/скрытия истории
         toggleHistoryBtn = null,
-
-        // Кнопка очистки истории
         resetHistoryBtn = null,
-
-        // Кнопка переключения темы
         themeTumbler = null,
-
-        // Кнопка переключения звуковых режимов
         soundModeTumbler = null,
-
-        // Заголовок истории по умолчанию
+        wrap = null, 
         historyDefaultLabel = 'History is empty.',
-
-        // Начальный номер строки истории
         lineNumber = 0,
-
-        // Символы клавиш
         simbols = ['<', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '000'],
-
-        // массив ключей объекта события keydown
         eventKeys = ['Backspace', 'Enter', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-
-        // Звуки калькулятора
         sounds = {
             click: './sounds/click.mp3',
             error: './sounds/error.mp3',
@@ -42,18 +39,15 @@ class Calculator {
             dark: './sounds/dark.mp3',
             light: './sounds/light.mp3'
         },
-
-        // themes - стандартные названия классов для темы калькулятора
         themes = {
             ligth: 'light',
             dark: 'dark'
         },
-
-        // soundModes - режимы звука
         soundModes = {
             sound: 'sound',
             mute: 'mute'
-        }
+        },
+        ask = 'Are you sure you want to delete history?'
     ) {
         this.buttons = buttons;
         this.res = res;
@@ -64,12 +58,14 @@ class Calculator {
         this.resetHistoryBtn = resetHistoryBtn;
         this.themeTumbler = themeTumbler;
         this.soundModeTumbler = soundModeTumbler;
+        this.wrap = wrap;
         this.lineNumber = lineNumber;
         this.simbols = simbols;
         this.sounds = sounds;
         this.themes = themes;
         this.soundModes = soundModes;
         this.eventKeys = eventKeys;
+        this.ask = ask;
     }
 
     setDefaultHistoryLabel(defaultLabel = this.historyDefaultLabel) {
@@ -122,6 +118,28 @@ class Calculator {
             if (val === simbol) {
                 this.lineNumber++;
                 this.history.innerHTML += `${this.lineNumber}| Pressed "${val}"\n`;
+                this.makeSounds(this.sounds.click);
+            }
+            if (this.history.innerHTML) {
+                this.resetHistoryBtn.classList.remove('blocked-btn');
+            }
+        });
+    }
+
+    /**
+     * 
+     * @param {*} simbols - массив символов на клавиатуре
+     * @param {*} val - значение ключа key объекта события keydown
+     */
+     pressKeys(simbols, val) {
+        simbols.forEach((simbol) => {
+            if (this.lineNumber < 1) {
+                this.resetDefaultHistoryLabel();
+            }
+            if (val === simbol) {
+                this.lineNumber++;
+                this.history.innerHTML += `${this.lineNumber}| Pressed "${val}"\n`;
+                this.makeSounds(this.sounds.click);
             }
             if (this.history.innerHTML) {
                 this.resetHistoryBtn.classList.remove('blocked-btn');
@@ -162,14 +180,12 @@ class Calculator {
                 }
     
                 this.pressButtons(this.simbols, val);
-                this.makeSounds(this.sounds.click);
             });
         });
     }
 
-    activateKeybord(eventKeys = this.eventKeys) {
+    activateKeybord() {
         document.addEventListener('keydown', (e) => {
-            this.makeSounds(this.sounds.click);
             let val = e.key;
 
             if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
@@ -199,8 +215,7 @@ class Calculator {
                 }
             }
 
-            this.pressButtons(this.eventKeys, val);
-            this.makeSounds(this.sounds.click);
+            this.pressKeys(this.eventKeys, val);
         });
     }
 
@@ -208,7 +223,7 @@ class Calculator {
      * 
      * @param {*} wrap - контейнер для истории
      */
-    activateToggleHistory(wrap) {
+    activateToggleHistory(wrap = this.wrap) {
         this.toggleHistoryBtn.addEventListener('click', () => {
             this.makeSounds(this.sounds.history);
             wrap.classList.contains('hidden') ?
@@ -221,7 +236,7 @@ class Calculator {
      * 
      * @param {*} ask - сообщение во всплывающем окне при очистке истории
      */
-    activateResetHistory(ask) {
+    activateResetHistory(ask = this.ask) {
         this.resetHistoryBtn.addEventListener('click', () => {
             let answer = window.confirm(ask);
             if (answer && this.res) {

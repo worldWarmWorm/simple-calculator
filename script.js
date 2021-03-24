@@ -8,16 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('history-btn'),
         document.getElementById('reset-btn'),
         document.getElementById('themeTumbler'),
-        document.getElementById('soundTumbler')
-    ),
-    wrap = document.getElementById('historyWrap'),
-    ask = 'Are you sure you want to delete history?';
+        document.getElementById('soundTumbler'),
+        document.getElementById('historyWrap')
+    );
 
     calc.setDefaultHistoryLabel();
-
     calc.activateButtons();
-    calc.activateToggleHistory(wrap);
-    calc.activateResetHistory(ask);
+    calc.activateToggleHistory();
+    calc.activateResetHistory();
     calc.activateThemeSwitch();
     calc.activateSoundModeSwitch();
     calc.activateKeybord();
