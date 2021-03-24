@@ -15,45 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     calc.setDefaultHistoryLabel();
 
-    calc.keys.forEach((el) => {
-        el.addEventListener('click', () => {
-            let val = el.getAttribute('data-value');
-
-            if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
-                calc.res.value += val;
-            }
-
-            if (val === 'c') {
-                calc.res.value = '';
-            }
-
-            if (val === '') {
-                calc.res.value = calc.res.value.slice(0, -1);
-            }
-
-            if (val === '%') {
-                calc.res.value = calc.res.value / 100;
-            }
-
-            if (val === '=' && calc.res.value) {
-                calc.res.value = eval(calc.res.value);
-                if (!isFinite(calc.res.value)) {
-                    calc.makeSounds(calc.sounds.error);
-                    setTimeout(() => {
-                        return window.confirm('Error:\n recived too large number or set deviding on 0');
-                    }, 200);
-                    calc.res.value = '';
-                }
-            }
-
-            calc.pressButtons(calc.simbols, val);
-            calc.makeSounds(calc.sounds.click);
-        });
-    });
-
-    calc.toggleHistory(wrap);
-    calc.resetHistory(ask);
-    calc.themeSwitch();
-    calc.soundModeSwitch();
-    calc.presskeybord();
+    calc.activateButtons();
+    calc.activateToggleHistory(wrap);
+    calc.activateResetHistory(ask);
+    calc.activateThemeSwitch();
+    calc.activateSoundModeSwitch();
+    calc.activateKeybord();
 });
