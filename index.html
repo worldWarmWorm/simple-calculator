@@ -11,14 +11,23 @@
 </head>
 
 <body class="light">
-    <div class="tumbler tumbler-theme">
-        Светлая/Темная тема
-        <input id="themeTumbler" type="checkbox">
-    </div>
-    <div class="tumbler tumbler-sound">
-        Вкл/Откл звук
-        <input id="soundTumbler" type="checkbox" data-sound-mode="sound">
-    </div>
+    <section class="py-5 container">
+        <div class="tumblers">
+            <div class="tumbler tumbler-theme">
+                <input id="themeTumbler" type="checkbox">
+                Светлая/Темная тема
+            </div>
+            <div class="tumbler tumbler-sound">
+                <input id="soundTumbler" type="checkbox" data-sound-mode="mute">
+                Вкл/Откл звук
+            </div>
+            <div class="tumbler tumbler-keyboard">
+                <input id="keyboardTumbler" type="checkbox" data-keyboard="off">
+                Вкл/Откл клавиатуру
+            </div>
+        </div>
+    </section>
+    
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
@@ -27,28 +36,27 @@
         </div>
     </section>
     <section class="container">
-        <div id="calculator" class="row">
+        <div id="calculator" class="row calculator disable-keyboard">
             <input type="text" id="result" class="form-control result col-12" readonly placeholder="0" value="">
-            <button class="btn btn-default col-3" data-value="c">c</button>
-            <button class="btn btn-default col-3" data-value="%">%</button>
-            <button class="btn btn-default col-3" data-value="<"><</button>
-            <button class="btn btn-default col-3" data-value="+">+</button>
-            <button class="btn btn-default col-3" data-value="1">1</button>
-            <button class="btn btn-default col-3" data-value="2">2</button>
-            <button class="btn btn-default col-3" data-value="3">3</button>
-            <button class="btn btn-default col-3" data-value="-">-</button>
-            <button class="btn btn-default col-3" data-value="4">4</button>
-            <button class="btn btn-default col-3" data-value="5">5</button>
-            <button class="btn btn-default col-3" data-value="6">6</button>
-            <button class="btn btn-default col-3" data-value="*">*</button>
-            <button class="btn btn-default col-3" data-value="7">7</button>
-            <button class="btn btn-default col-3" data-value="8">8</button>
-            <button class="btn btn-default col-3" data-value="9">9</button>
-            <button class="btn btn-default col-3" data-value="/">/</button>
-            <button class="btn btn-default col-3" data-value="0">0</button>
-            <button class="btn btn-default col-3" data-value="000">000</button>
-            <button class="btn btn-default col-3" data-value=".">.</button>
-            <button class="btn btn-default col-3" data-value="=">=</button>
+            <button class="btn btn-default col-3" data-value="c">c<span class="description">c</span></button>
+            <button class="btn btn-default col-3" data-value="%">%<span class="description">shift 5</span></button>
+            <button class="btn btn-default col-3" data-value="<"><<span class="description">backspace</span></button>
+            <button class="btn btn-default col-3" data-value="+">+<span class="description">shift +</span></button>
+            <button class="btn btn-default col-3" data-value="1">1<span class="description">1</span></button>
+            <button class="btn btn-default col-3" data-value="2">2<span class="description">2</span></button>
+            <button class="btn btn-default col-3" data-value="3">3<span class="description">3</span></button>
+            <button class="btn btn-default col-3" data-value="-">-<span class="description">-</span></button>
+            <button class="btn btn-default col-3" data-value="4">4<span class="description">4</span></button>
+            <button class="btn btn-default col-3" data-value="5">5<span class="description">5</span></button>
+            <button class="btn btn-default col-3" data-value="6">6<span class="description">6</span></button>
+            <button class="btn btn-default col-3" data-value="*">*<span class="description">shift *</span></button>
+            <button class="btn btn-default col-3" data-value="7">7<span class="description">7</span></button>
+            <button class="btn btn-default col-3" data-value="8">8<span class="description">8</span></button>
+            <button class="btn btn-default col-3" data-value="9">9<span class="description">9</span></button>
+            <button class="btn btn-default col-3" data-value="/">/<span class="description">/</span></button>
+            <button class="btn btn-default col-3" data-value="0">0<span class="description">0</span></button>
+            <button class="btn btn-default col-3" data-value=".">.<span class="description">.</span></button>
+            <button class="btn btn-default col-6" data-value="=">=<span class="description">Enter</span></button>
         </div>
     </section>
     <section class="container consoles">
@@ -57,7 +65,6 @@
             <button type="button" class="btn reset-btn blocked-btn" id="reset-btn">Reset history</button>
         </div>
         <div id="historyWrap"  class="history-wrap hidden">
-            <!-- <code class="history-default-label">History is empty.</code> -->
             <pre><code id="history"></code></pre>
         </div>
     </section>

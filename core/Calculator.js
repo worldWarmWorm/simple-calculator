@@ -1,6 +1,7 @@
 class Calculator {
     /**
      * 
+     * @param {*} calculator - Контейнер клавиатуры
      * @param {*} buttons - Кнопки клавиатуры
      * @param {*} res - Табло результата
      * @param {*} history - История нажатых клавиш
@@ -8,6 +9,7 @@ class Calculator {
      * @param {*} resetHistoryBtn - Кнопка очистки истории
      * @param {*} themeTumbler - Кнопка переключения темы
      * @param {*} soundModeTumbler - Кнопка переключения звуковых режимов
+     * @param {*} keyboardTumbler - Кнопка переключения режимов клавиатуры
      * @param {*} wrap - контейнер для истории
      * @param {*} historyDefaultLabel - Заголовок истории по умолчанию
      * @param {*} lineNumber - Начальный номер строки истории
@@ -16,9 +18,11 @@ class Calculator {
      * @param {*} sounds - Звуки калькулятора
      * @param {*} themes - Стандартные названия классов для темы калькулятора
      * @param {*} soundModes - Режимы звука
+     * @param {*} keyboardModes - Режимы клавиатуры
      * @param {*} ask - Сообщение во всплывающем окне при очистке истории
      */
     constructor(
+        calculator = null,
         buttons = [],
         res = '',
         history = '',
@@ -26,10 +30,11 @@ class Calculator {
         resetHistoryBtn = null,
         themeTumbler = null,
         soundModeTumbler = null,
-        wrap = null, 
+        keyboardTumbler = null,
+        wrap = null,
         historyDefaultLabel = 'History is empty.',
         lineNumber = 0,
-        simbols = ['<', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '000'],
+        simbols = ['<', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
         eventKeys = ['Backspace', 'Enter', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
         sounds = {
             click: './sounds/click.mp3',
@@ -47,8 +52,13 @@ class Calculator {
             sound: 'sound',
             mute: 'mute'
         },
+        keyboardModes = {
+            on: 'on',
+            off: 'off'
+        },
         ask = 'Are you sure you want to delete history?'
     ) {
+        this.calculator = calculator;
         this.buttons = buttons;
         this.res = res;
         this.history = history;
@@ -58,6 +68,7 @@ class Calculator {
         this.resetHistoryBtn = resetHistoryBtn;
         this.themeTumbler = themeTumbler;
         this.soundModeTumbler = soundModeTumbler;
+        this.keyboardTumbler = keyboardTumbler;
         this.wrap = wrap;
         this.lineNumber = lineNumber;
         this.simbols = simbols;
@@ -65,6 +76,7 @@ class Calculator {
         this.themes = themes;
         this.soundModes = soundModes;
         this.eventKeys = eventKeys;
+        this.keyboardModes = keyboardModes;
         this.ask = ask;
     }
 
@@ -96,12 +108,28 @@ class Calculator {
      * 
      * @param {*} soundModes - звуковые режимы
      */
-    activateSoundModeSwitch(soundModes = this.soundModes) {
+    activateToggleSoundModes(soundModes = this.soundModes) {
         this.soundModeTumbler.addEventListener('change', () => {
             let soundModeData = this.soundModeTumbler.getAttribute('data-sound-mode');
             soundModeData === soundModes.sound ?
                 this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.mute) :
                 this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.sound);
+        });
+    }
+
+    /**
+     * 
+     * @param {*} keyboardModes - режимы клавиатуры
+     */
+    activateKeyboardModes(keyboardModes = this.keyboardModes) {
+        this.keyboardTumbler.addEventListener('change', () => {
+            let keyboardModeData = this.keyboardTumbler.getAttribute('data-keyboard');
+            keyboardModeData === keyboardModes.on ?
+                this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.off) :
+                this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
+            this.calculator.classList.contains('disable-keyboard') ?
+                this.calculator.classList.remove('disable-keyboard') :
+                this.calculator.classList.add('disable-keyboard')
         });
     }
 
@@ -131,7 +159,7 @@ class Calculator {
      * @param {*} simbols - массив символов на клавиатуре
      * @param {*} val - значение ключа key объекта события keydown
      */
-     pressKeys(simbols, val) {
+    pressKeys(simbols, val) {
         simbols.forEach((simbol) => {
             if (this.lineNumber < 1) {
                 this.resetDefaultHistoryLabel();
@@ -144,6 +172,8 @@ class Calculator {
             if (this.history.innerHTML) {
                 this.resetHistoryBtn.classList.remove('blocked-btn');
             }
+
+            return false;
         });
     }
 
@@ -151,23 +181,23 @@ class Calculator {
         this.buttons.forEach((el) => {
             el.addEventListener('click', () => {
                 let val = el.getAttribute('data-value');
-    
+
                 if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
                     this.res.value += val;
                 }
-    
+
                 if (val === 'c') {
                     this.res.value = '';
                 }
-    
+
                 if (val === '<') {
                     this.res.value = this.res.value.slice(0, -1);
                 }
-    
+
                 if (val === '%') {
                     this.res.value = this.res.value / 100;
                 }
-    
+
                 if (val === '=' && this.res.value) {
                     this.res.value = eval(this.res.value);
                     if (!isFinite(this.res.value)) {
@@ -178,7 +208,7 @@ class Calculator {
                         this.res.value = '';
                     }
                 }
-    
+
                 this.pressButtons(this.simbols, val);
             });
         });
@@ -252,7 +282,7 @@ class Calculator {
      * 
      * @param {*} themes - стандартные названия классов для темы калькулятора
      */
-    activateThemeSwitch(themes = this.themes) {
+    activateToggleThemes(themes = this.themes) {
         this.themeTumbler.addEventListener('change', () => {
             let themeClass = document.body.classList;
             if (themeClass.contains(themes.dark)) {
