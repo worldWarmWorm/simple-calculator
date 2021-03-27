@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple calculator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body class="light">
@@ -27,7 +27,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
@@ -40,7 +40,9 @@
             <input type="text" id="result" class="form-control result col-12" readonly placeholder="0" value="">
             <button class="btn btn-default col-3" data-value="c">c<span class="description">c</span></button>
             <button class="btn btn-default col-3" data-value="%">%<span class="description">shift 5</span></button>
-            <button class="btn btn-default col-3" data-value="<"><<span class="description">backspace</span></button>
+            <button class="btn btn-default col-3" data-value="<">
+                <<span class="description">backspace</span>
+            </button>
             <button class="btn btn-default col-3" data-value="+">+<span class="description">shift +</span></button>
             <button class="btn btn-default col-3" data-value="1">1<span class="description">1</span></button>
             <button class="btn btn-default col-3" data-value="2">2<span class="description">2</span></button>
@@ -64,7 +66,7 @@
             <button type="button" class="btn history-btn" id="history-btn">History</button>
             <button type="button" class="btn reset-btn blocked-btn" id="reset-btn">Reset history</button>
         </div>
-        <div id="historyWrap"  class="history-wrap hidden">
+        <div id="historyWrap" class="history-wrap hidden">
             <pre><code id="history"></code></pre>
         </div>
     </section>

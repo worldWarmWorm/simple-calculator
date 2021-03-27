@@ -14,12 +14,5 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('historyWrap')
     );
 
-    calc.setDefaultHistoryLabel();
-    calc.activateButtons();
-    calc.activateKeybord();
-    calc.activateToggleHistory();
-    calc.activateToggleThemes();
-    calc.activateToggleSoundModes();
-    calc.activateKeyboardModes();
-    calc.activateResetHistory();
+    calc.init();
 });

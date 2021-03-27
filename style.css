@@ -78,6 +78,13 @@ h1 {
     text-align: center;
     font-weight: 400;
     transition: .3s all;
+    transform: translateY(0);
+}
+
+.disable-keyboard .description {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(25px);
 }
 
 .history-wrap {
@@ -92,8 +99,7 @@ h1 {
     transition: .3s all;
 }
 
-.hidden,
-.disable-keyboard .description {
+.hidden {
     opacity: 0;
     visibility: hidden;
 }

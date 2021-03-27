@@ -100,7 +100,7 @@ class Calculator {
         if (soundModeData === soundModes.sound) {
             return audio.play();
         } else {
-            return false;
+            return 0;
         }
     }
 
@@ -121,17 +121,50 @@ class Calculator {
      * 
      * @param {*} keyboardModes - режимы клавиатуры
      */
-    activateKeyboardModes(keyboardModes = this.keyboardModes) {
-        this.keyboardTumbler.addEventListener('change', () => {
-            let keyboardModeData = this.keyboardTumbler.getAttribute('data-keyboard');
-            keyboardModeData === keyboardModes.on ?
-                this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.off) :
-                this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
-            this.calculator.classList.contains('disable-keyboard') ?
-                this.calculator.classList.remove('disable-keyboard') :
-                this.calculator.classList.add('disable-keyboard')
-        });
-    }
+    // activateToggleKeyboardModes(keyboardModes = this.keyboardModes) {
+    //     this.keyboardTumbler.addEventListener('change', () => {
+    //         let keyboardModeData = this.keyboardTumbler.getAttribute('data-keyboard');
+
+    //         this.calculator.classList.contains('disable-keyboard') ?
+    //             this.calculator.classList.remove('disable-keyboard') :
+    //             this.calculator.classList.add('disable-keyboard');
+
+    //         keyboardModeData === keyboardModes.on ?
+    //             this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.off) :
+    //             this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
+
+    //         if (keyboardModeData === keyboardModes.on) {
+    //             document.addEventListener('keydown', (e) => {
+    //                 let val = e.key;
+    //                 if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
+    //                     this.res.value += val;
+    //                 } 
+    //                 if (val === 'c') {
+    //                     this.res.value = '';
+    //                 }
+    //                 if (val === 'Backspace') {
+    //                     this.res.value = this.res.value.slice(0, -1);
+    //                 }
+    //                 if (val === '%') {
+    //                     this.res.value = this.res.value / 100;
+    //                 }
+    //                 if (val === 'Enter' && this.res.value) {
+    //                     this.res.value = eval(this.res.value);
+    //                     if (!isFinite(this.res.value)) {
+    //                         this.makeSounds(this.sounds.error);
+    //                         setTimeout(() => {
+    //                             return window.confirm('Error:\n recived too large number or set deviding on 0');
+    //                         }, 200);
+    //                         this.res.value = '';
+    //                     }
+    //                 }
+    //                 this.pressKeys(this.eventKeys, val);
+    //             });
+    //         } else {
+    //             return false;
+    //         }
+    //     });
+    // }
 
     /**
      * 
@@ -172,8 +205,6 @@ class Calculator {
             if (this.history.innerHTML) {
                 this.resetHistoryBtn.classList.remove('blocked-btn');
             }
-
-            return false;
         });
     }
 
@@ -181,23 +212,18 @@ class Calculator {
         this.buttons.forEach((el) => {
             el.addEventListener('click', () => {
                 let val = el.getAttribute('data-value');
-
                 if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
                     this.res.value += val;
                 }
-
                 if (val === 'c') {
                     this.res.value = '';
                 }
-
                 if (val === '<') {
                     this.res.value = this.res.value.slice(0, -1);
                 }
-
                 if (val === '%') {
                     this.res.value = this.res.value / 100;
                 }
-
                 if (val === '=' && this.res.value) {
                     this.res.value = eval(this.res.value);
                     if (!isFinite(this.res.value)) {
@@ -208,32 +234,26 @@ class Calculator {
                         this.res.value = '';
                     }
                 }
-
                 this.pressButtons(this.simbols, val);
             });
         });
     }
 
-    activateKeybord() {
-        document.addEventListener('keydown', (e) => {
+    activateKeybord(active = false) {
+        let a = document.addEventListener('keydown', (e) => {
             let val = e.key;
-
             if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
                 this.res.value += val;
-            }
-
+            } 
             if (val === 'c') {
                 this.res.value = '';
             }
-
             if (val === 'Backspace') {
                 this.res.value = this.res.value.slice(0, -1);
             }
-
             if (val === '%') {
                 this.res.value = this.res.value / 100;
             }
-
             if (val === 'Enter' && this.res.value) {
                 this.res.value = eval(this.res.value);
                 if (!isFinite(this.res.value)) {
@@ -244,9 +264,15 @@ class Calculator {
                     this.res.value = '';
                 }
             }
-
             this.pressKeys(this.eventKeys, val);
         });
+
+        if (active) {
+            a = null;
+            return false;
+        } else {
+            return a;
+        }
     }
 
     /**
@@ -295,6 +321,16 @@ class Calculator {
                 this.makeSounds(this.sounds.dark);
             }
         });
+    }
+
+    init() {
+        this.setDefaultHistoryLabel();
+        this.activateButtons();
+        this.activateToggleHistory();
+        this.activateToggleThemes();
+        this.activateToggleSoundModes();
+        this.activateKeybord();
+        this.activateResetHistory();
     }
 }
 
