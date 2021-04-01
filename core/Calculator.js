@@ -1,3 +1,5 @@
+import Cookies from './Cookies.js';
+
 class Calculator {
     /**
      * 
@@ -108,12 +110,62 @@ class Calculator {
      * 
      * @param {*} soundModes - звуковые режимы
      */
-    activateToggleSoundModes(soundModes = this.soundModes) {
+    activateCookies(soundModes = this.soundModes, keyboardModes = this.keyboardModes) {
+        let cookie = new Cookies(),
+            currentSoundCookie = cookie.get('sound-mode'),
+            currentKeyboardCookie = cookie.get('keyboard-mode'),
+            soundModeData = this.soundModeTumbler.getAttribute('data-sound-mode'),
+            keyboardModeData = this.keyboardTumbler.getAttribute('data-keyboard');
+
         this.soundModeTumbler.addEventListener('change', () => {
-            let soundModeData = this.soundModeTumbler.getAttribute('data-sound-mode');
-            soundModeData === soundModes.sound ?
-                this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.mute) :
+            if (soundModeData === soundModes.mute && (currentSoundCookie === '=mute' || currentSoundCookie === undefined)) {
                 this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.sound);
+                this.soundModeTumbler.classList.add('checked');
+                cookie.set('sound-mode', soundModes.sound);
+                console.log('sound');
+            } else {
+                this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.mute);
+                this.soundModeTumbler.removeAttribute('class');
+                cookie.set('sound-mode', soundModes.mute);
+                console.log('mute');
+            }
+        });
+
+        this.keyboardTumbler.addEventListener('change', () => {
+            this.calculator.classList.contains('hidden-keyboard-description') ?
+                this.calculator.classList.remove('hidden-keyboard-description') :
+                this.calculator.classList.add('hidden-keyboard-description');
+            if (keyboardModeData === keyboardModes.off && (currentKeyboardCookie === '=off' || undefined)) {
+                this.keyboardTumbler.setAttribute('hidden-keyboard-description', keyboardModes.on);
+                cookie.set('keyboard-mode', keyboardModes.on);
+                this.keyboardTumbler.classList.add('checked');
+            } else {
+                this.keyboardTumbler.setAttribute('hidden-keyboard-description', keyboardModes.off);
+                cookie.set('keyboard-mode', keyboardModes.off);
+                this.keyboardTumbler.removeAttribute('class');
+            }
+        });
+
+        window.addEventListener('load', () => {
+            if (currentSoundCookie === '=mute' || currentSoundCookie === undefined) {
+                cookie.set('sound-mode', soundModes.mute);
+                this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.mute);
+                this.soundModeTumbler.removeAttribute('class');
+            } else {
+                cookie.set('sound-mode', soundModes.sound);
+                this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.sound);
+                this.soundModeTumbler.classList.add('checked');
+            }
+
+            if (currentKeyboardCookie === '=off' || undefined) {
+                this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.off);
+                this.keyboardTumbler.removeAttribute('class');
+                cookie.set('keyboard-mode', keyboardModes.off);
+            } else {
+                this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
+                cookie.set('keyboard-mode', keyboardModes.on);
+                this.keyboardTumbler.classList.add('checked');
+            }
         });
     }
 
@@ -121,50 +173,17 @@ class Calculator {
      * 
      * @param {*} keyboardModes - режимы клавиатуры
      */
-    // activateToggleKeyboardModes(keyboardModes = this.keyboardModes) {
-    //     this.keyboardTumbler.addEventListener('change', () => {
-    //         let keyboardModeData = this.keyboardTumbler.getAttribute('data-keyboard');
-
-    //         this.calculator.classList.contains('disable-keyboard') ?
-    //             this.calculator.classList.remove('disable-keyboard') :
-    //             this.calculator.classList.add('disable-keyboard');
-
-    //         keyboardModeData === keyboardModes.on ?
-    //             this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.off) :
-    //             this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
-
-    //         if (keyboardModeData === keyboardModes.on) {
-    //             document.addEventListener('keydown', (e) => {
-    //                 let val = e.key;
-    //                 if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
-    //                     this.res.value += val;
-    //                 } 
-    //                 if (val === 'c') {
-    //                     this.res.value = '';
-    //                 }
-    //                 if (val === 'Backspace') {
-    //                     this.res.value = this.res.value.slice(0, -1);
-    //                 }
-    //                 if (val === '%') {
-    //                     this.res.value = this.res.value / 100;
-    //                 }
-    //                 if (val === 'Enter' && this.res.value) {
-    //                     this.res.value = eval(this.res.value);
-    //                     if (!isFinite(this.res.value)) {
-    //                         this.makeSounds(this.sounds.error);
-    //                         setTimeout(() => {
-    //                             return window.confirm('Error:\n recived too large number or set deviding on 0');
-    //                         }, 200);
-    //                         this.res.value = '';
-    //                     }
-    //                 }
-    //                 this.pressKeys(this.eventKeys, val);
-    //             });
-    //         } else {
-    //             return false;
-    //         }
-    //     });
-    // }
+    activateToggleKeyboardDescriptions(keyboardModes = this.keyboardModes) {
+        this.keyboardTumbler.addEventListener('change', () => {
+            let keyboardModeData = this.keyboardTumbler.getAttribute('data-keyboard');
+            this.calculator.classList.contains('hidden-keyboard-description') ?
+                this.calculator.classList.remove('hidden-keyboard-description') :
+                this.calculator.classList.add('hidden-keyboard-description');
+            keyboardModeData === keyboardModes.on ?
+                this.keyboardTumbler.setAttribute('hidden-keyboard-description', keyboardModes.off) :
+                this.keyboardTumbler.setAttribute('hidden-keyboard-description', keyboardModes.on);
+        });
+    }
 
     /**
      * 
@@ -239,12 +258,12 @@ class Calculator {
         });
     }
 
-    activateKeybord(active = false) {
-        let a = document.addEventListener('keydown', (e) => {
+    activateKeybord() {
+        document.addEventListener('keydown', (e) => {
             let val = e.key;
             if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
                 this.res.value += val;
-            } 
+            }
             if (val === 'c') {
                 this.res.value = '';
             }
@@ -264,15 +283,11 @@ class Calculator {
                     this.res.value = '';
                 }
             }
+            if (val === ' ') {
+                this.res.value = '';
+            }
             this.pressKeys(this.eventKeys, val);
         });
-
-        if (active) {
-            a = null;
-            return false;
-        } else {
-            return a;
-        }
     }
 
     /**
@@ -328,9 +343,11 @@ class Calculator {
         this.activateButtons();
         this.activateToggleHistory();
         this.activateToggleThemes();
-        this.activateToggleSoundModes();
+        // this.activateToggleSoundModes();
         this.activateKeybord();
         this.activateResetHistory();
+        this.activateToggleKeyboardDescriptions();
+        this.activateCookies();
     }
 }
 

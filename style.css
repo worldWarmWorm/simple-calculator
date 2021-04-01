@@ -81,7 +81,7 @@ h1 {
     transform: translateY(0);
 }
 
-.disable-keyboard .description {
+.hedden-keyboard-description .description {
     opacity: 0;
     visibility: hidden;
     transform: translateY(25px);
@@ -171,18 +171,6 @@ button {
     margin: 0 auto;
 }
 
-/* .tumbler-theme {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-} */
-
-/* .tumbler-sound {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-} */
-
 .tumbler input[type="checkbox"] {
     position: relative;
     width: 90px;
@@ -199,6 +187,7 @@ button {
             inset 0 0 15px rgba(0,0,0,.2);
     cursor: pointer;
 }
+
 .tumbler input[type="checkbox"]::before {
     content: '';
     position: absolute;
@@ -212,9 +201,11 @@ button {
     transform: scale(.98, .96);
     transition: .5s all;
 }
-.tumbler input:checked[type="checkbox"]::before {
+
+.tumbler .checked[type="checkbox"]::before {
     left: 30px;
 }
+
 .tumbler input[type="checkbox"]::after {
     content: '';
     position: absolute;
@@ -226,12 +217,14 @@ button {
     border-radius: 50%;
     transition: .5s all;
 }
-.tumbler input:checked[type="checkbox"]::after {
+
+.tumbler .checked[type="checkbox"]::after {
     background: #63cdff;
     box-shadow: 0 0 5px #13b3ff, 0 0 15px #13b3ff;
     left: 75px;
 }
-.tumbler input:checked[type="checkbox"] {
+
+.tumbler .checked[type="checkbox"] {
     background: linear-gradient(0deg, #6bd1ff, #20b7ff);
     box-shadow:
             0 0 2px #6bd1ff,

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('reset-btn'),
         document.getElementById('themeTumbler'),
         document.getElementById('soundTumbler'),
-        document.getElementById('keyboardTumbler'),
+        document.getElementById('descriptionsTumbler'),
         document.getElementById('historyWrap')
     );
 
