@@ -1,5 +1,3 @@
-import Cookies from './Cookies.js';
-
 class Calculator {
     /**
      * 
@@ -47,7 +45,7 @@ class Calculator {
             light: './sounds/light.mp3'
         },
         themes = {
-            ligth: 'light',
+            light: 'light',
             dark: 'dark'
         },
         soundModes = {
@@ -109,79 +107,95 @@ class Calculator {
     /**
      * 
      * @param {*} soundModes - звуковые режимы
+     * @param {*} keyboardModes - режимы подсказок клавиатуры
      */
-    activateCookies(soundModes = this.soundModes, keyboardModes = this.keyboardModes) {
-        let cookie = new Cookies(),
-            currentSoundCookie = cookie.get('sound-mode'),
-            currentKeyboardCookie = cookie.get('keyboard-mode'),
-            soundModeData = this.soundModeTumbler.getAttribute('data-sound-mode'),
-            keyboardModeData = this.keyboardTumbler.getAttribute('data-keyboard');
-
-        this.soundModeTumbler.addEventListener('change', () => {
-            if (soundModeData === soundModes.mute && (currentSoundCookie === '=mute' || currentSoundCookie === undefined)) {
-                this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.sound);
-                this.soundModeTumbler.classList.add('checked');
-                cookie.set('sound-mode', soundModes.sound);
-                console.log('sound');
-            } else {
-                this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.mute);
-                this.soundModeTumbler.removeAttribute('class');
-                cookie.set('sound-mode', soundModes.mute);
-                console.log('mute');
-            }
-        });
-
-        this.keyboardTumbler.addEventListener('change', () => {
-            this.calculator.classList.contains('hidden-keyboard-description') ?
-                this.calculator.classList.remove('hidden-keyboard-description') :
-                this.calculator.classList.add('hidden-keyboard-description');
-            if (keyboardModeData === keyboardModes.off && (currentKeyboardCookie === '=off' || undefined)) {
-                this.keyboardTumbler.setAttribute('hidden-keyboard-description', keyboardModes.on);
-                cookie.set('keyboard-mode', keyboardModes.on);
-                this.keyboardTumbler.classList.add('checked');
-            } else {
-                this.keyboardTumbler.setAttribute('hidden-keyboard-description', keyboardModes.off);
-                cookie.set('keyboard-mode', keyboardModes.off);
-                this.keyboardTumbler.removeAttribute('class');
-            }
-        });
+    activateTogglePannel(soundModes = this.soundModes, keyboardModes = this.keyboardModes, themes = this.themes) {
+        let currentSoundStorage = localStorage.getItem('sound-mode'),
+            currentKeyboardStorage = localStorage.getItem('keyboard-mode'),
+            currentThemeStorage = localStorage.getItem('theme'),
+            soundData = this.soundModeTumbler.getAttribute('data-sound-mode'),
+            keyboardData = this.keyboardTumbler.getAttribute('data-keyboard'),
+            themeData = this.themeTumbler.getAttribute('data-theme');
 
         window.addEventListener('load', () => {
-            if (currentSoundCookie === '=mute' || currentSoundCookie === undefined) {
-                cookie.set('sound-mode', soundModes.mute);
+            if (currentThemeStorage === 'light' || currentThemeStorage === undefined) {
+                this.themeTumbler.setAttribute('data-theme', themes.light);
+                localStorage.setItem('theme', themes.light);
+                document.body.classList.remove(themes.dark);
+                document.body.classList.add(themes.light);
+                this.themeTumbler.removeAttribute('class');
+            } else {
+                this.themeTumbler.setAttribute('data-theme', themes.dark);
+                localStorage.setItem('theme', themes.dark);
+                document.body.classList.remove(themes.light);
+                document.body.classList.add(themes.dark);
+                this.themeTumbler.classList.add('checked');
+            }
+
+            if (currentSoundStorage === 'mute' || currentSoundStorage === undefined) {
                 this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.mute);
                 this.soundModeTumbler.removeAttribute('class');
+                localStorage.setItem('sound-mode', soundModes.mute);
             } else {
-                cookie.set('sound-mode', soundModes.sound);
                 this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.sound);
                 this.soundModeTumbler.classList.add('checked');
+                localStorage.setItem('sound-mode', soundModes.sound);
             }
 
-            if (currentKeyboardCookie === '=off' || undefined) {
+            if (currentKeyboardStorage === 'off' || currentKeyboardStorage === undefined) {
                 this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.off);
                 this.keyboardTumbler.removeAttribute('class');
-                cookie.set('keyboard-mode', keyboardModes.off);
+                localStorage.setItem('keyboard-mode', keyboardModes.off);
+                this.calculator.classList.add('hidden-keyboard-description');
             } else {
                 this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
-                cookie.set('keyboard-mode', keyboardModes.on);
                 this.keyboardTumbler.classList.add('checked');
+                localStorage.setItem('keyboard-mode', keyboardModes.on);
+                this.calculator.classList.remove('hidden-keyboard-description');
             }
         });
-    }
 
-    /**
-     * 
-     * @param {*} keyboardModes - режимы клавиатуры
-     */
-    activateToggleKeyboardDescriptions(keyboardModes = this.keyboardModes) {
+        this.soundModeTumbler.addEventListener('change', () => {
+            if (soundData === soundModes.mute && (currentSoundStorage === 'mute' || currentSoundStorage === undefined)) {
+                this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.sound);
+                this.soundModeTumbler.classList.add('checked');
+                localStorage.setItem('sound-mode', soundModes.sound);
+            } else {
+                this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.mute);
+                this.soundModeTumbler.removeAttribute('class');
+                localStorage.setItem('sound-mode', soundModes.mute);
+            }
+        });
+
         this.keyboardTumbler.addEventListener('change', () => {
-            let keyboardModeData = this.keyboardTumbler.getAttribute('data-keyboard');
             this.calculator.classList.contains('hidden-keyboard-description') ?
                 this.calculator.classList.remove('hidden-keyboard-description') :
                 this.calculator.classList.add('hidden-keyboard-description');
-            keyboardModeData === keyboardModes.on ?
-                this.keyboardTumbler.setAttribute('hidden-keyboard-description', keyboardModes.off) :
-                this.keyboardTumbler.setAttribute('hidden-keyboard-description', keyboardModes.on);
+            if (keyboardData === keyboardModes.off && (currentKeyboardStorage === 'off' || currentKeyboardStorage === undefined)) {
+                this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
+                this.keyboardTumbler.classList.add('checked');
+                localStorage.setItem('keyboard-mode', keyboardModes.on);
+            } else {
+                this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.off);
+                this.keyboardTumbler.removeAttribute('class');
+                localStorage.setItem('keyboard-mode', keyboardModes.off);
+            }
+        });
+
+        this.themeTumbler.addEventListener('change', () => {
+            if (themeData === themes.light && (currentThemeStorage === 'light' || currentThemeStorage === undefined)) {
+                document.body.classList.remove(themes.light);
+                document.body.classList.add(themes.dark);
+                localStorage.setItem('theme', themes.dark);
+                this.themeTumbler.classList.add('checked');
+                this.makeSounds(this.sounds.dark);                
+            } else {
+                document.body.classList.remove(themes.dark);
+                document.body.classList.add(themes.light);
+                localStorage.setItem('theme', themes.light);
+                this.themeTumbler.removeAttribute('class');
+                this.makeSounds(this.sounds.light);
+            }
         });
     }
 
@@ -319,35 +333,13 @@ class Calculator {
         });
     }
 
-    /**
-     * 
-     * @param {*} themes - стандартные названия классов для темы калькулятора
-     */
-    activateToggleThemes(themes = this.themes) {
-        this.themeTumbler.addEventListener('change', () => {
-            let themeClass = document.body.classList;
-            if (themeClass.contains(themes.dark)) {
-                themeClass.remove(themes.dark);
-                themeClass.add(themes.ligth);
-                this.makeSounds(this.sounds.light);
-            } else {
-                themeClass.remove(themes.ligth);
-                themeClass.add(themes.dark);
-                this.makeSounds(this.sounds.dark);
-            }
-        });
-    }
-
     init() {
         this.setDefaultHistoryLabel();
         this.activateButtons();
         this.activateToggleHistory();
-        this.activateToggleThemes();
-        // this.activateToggleSoundModes();
         this.activateKeybord();
         this.activateResetHistory();
-        this.activateToggleKeyboardDescriptions();
-        this.activateCookies();
+        this.activateTogglePannel();
     }
 }
 

@@ -81,7 +81,7 @@ h1 {
     transform: translateY(0);
 }
 
-.hedden-keyboard-description .description {
+.hidden-keyboard-description .description {
     opacity: 0;
     visibility: hidden;
     transform: translateY(25px);
