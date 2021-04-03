@@ -91,7 +91,7 @@ class Calculator {
     /**
      * 
      * @param {*} sound - путь до файла звука
-     * @param {*} soundModes - звуковые режимы
+     * @param {*} soundModes - массив звуковых режимов
      * @returns 
      */
     makeSounds(sound, soundModes = this.soundModes) {
@@ -106,16 +106,14 @@ class Calculator {
 
     /**
      * 
-     * @param {*} soundModes - звуковые режимы
-     * @param {*} keyboardModes - режимы подсказок клавиатуры
+     * @param {*} themes - массив тем
+     * @param {*} keyboardModes - массив режимов подсказок клавиатуры
+     * @param {*} soundModes - массив звуковых режимов
      */
-    activateTogglePannel(soundModes = this.soundModes, keyboardModes = this.keyboardModes, themes = this.themes) {
+    activateTogglePannel(themes = this.themes, soundModes = this.soundModes, keyboardModes = this.keyboardModes ) {
         let currentSoundStorage = localStorage.getItem('sound-mode'),
             currentKeyboardStorage = localStorage.getItem('keyboard-mode'),
-            currentThemeStorage = localStorage.getItem('theme'),
-            soundData = this.soundModeTumbler.getAttribute('data-sound-mode'),
-            keyboardData = this.keyboardTumbler.getAttribute('data-keyboard'),
-            themeData = this.themeTumbler.getAttribute('data-theme');
+            currentThemeStorage = localStorage.getItem('theme');
 
         window.addEventListener('load', () => {
             if (currentThemeStorage === 'light' || currentThemeStorage === undefined) {
@@ -153,10 +151,10 @@ class Calculator {
                 localStorage.setItem('keyboard-mode', keyboardModes.on);
                 this.calculator.classList.remove('hidden-keyboard-description');
             }
-        });
+        }); 
 
         this.soundModeTumbler.addEventListener('change', () => {
-            if (soundData === soundModes.mute && (currentSoundStorage === 'mute' || currentSoundStorage === undefined)) {
+            if (this.soundModeTumbler.getAttribute('data-sound-mode') === soundModes.mute) {
                 this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.sound);
                 this.soundModeTumbler.classList.add('checked');
                 localStorage.setItem('sound-mode', soundModes.sound);
@@ -171,7 +169,7 @@ class Calculator {
             this.calculator.classList.contains('hidden-keyboard-description') ?
                 this.calculator.classList.remove('hidden-keyboard-description') :
                 this.calculator.classList.add('hidden-keyboard-description');
-            if (keyboardData === keyboardModes.off && (currentKeyboardStorage === 'off' || currentKeyboardStorage === undefined)) {
+            if (this.keyboardTumbler.getAttribute('data-keyboard') === keyboardModes.off) {
                 this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
                 this.keyboardTumbler.classList.add('checked');
                 localStorage.setItem('keyboard-mode', keyboardModes.on);
@@ -183,16 +181,18 @@ class Calculator {
         });
 
         this.themeTumbler.addEventListener('change', () => {
-            if (themeData === themes.light && (currentThemeStorage === 'light' || currentThemeStorage === undefined)) {
+            if (this.themeTumbler.getAttribute('data-theme') === themes.light) {
                 document.body.classList.remove(themes.light);
                 document.body.classList.add(themes.dark);
                 localStorage.setItem('theme', themes.dark);
                 this.themeTumbler.classList.add('checked');
-                this.makeSounds(this.sounds.dark);                
+                this.themeTumbler.setAttribute('data-theme', themes.dark);
+                this.makeSounds(this.sounds.dark);
             } else {
                 document.body.classList.remove(themes.dark);
                 document.body.classList.add(themes.light);
                 localStorage.setItem('theme', themes.light);
+                this.themeTumbler.setAttribute('data-theme', themes.light);
                 this.themeTumbler.removeAttribute('class');
                 this.makeSounds(this.sounds.light);
             }
@@ -274,6 +274,7 @@ class Calculator {
 
     activateKeybord() {
         document.addEventListener('keydown', (e) => {
+            
             let val = e.key;
             if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
                 this.res.value += val;
@@ -298,7 +299,8 @@ class Calculator {
                 }
             }
             if (val === ' ') {
-                this.res.value = '';
+                e.preventDefault();
+                this.res.value = this.res.value.slice(0, -1);
             }
             this.pressKeys(this.eventKeys, val);
         });
@@ -306,7 +308,7 @@ class Calculator {
 
     /**
      * 
-     * @param {*} wrap - контейнер для истории
+     * @param {*} wrap - контейнер (div) для истории
      */
     activateToggleHistory(wrap = this.wrap) {
         this.toggleHistoryBtn.addEventListener('click', () => {
