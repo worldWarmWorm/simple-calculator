@@ -6,6 +6,9 @@
 
 body {
     transition: .3s all;
+    color: #58a6ff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
 }
 
 body.dark {
@@ -18,6 +21,7 @@ body.light {
 
 h1 {
     color: #58a6ff;
+    font-weight: 800;
 }
 
 #calculator {
@@ -32,14 +36,15 @@ h1 {
 .result {
     margin-bottom: 20px;
     text-align: right;
-    font-weight: bold;
+    font-weight: 300;
 }
 
 .btn-default {
     background-color: rgba(56, 139, 253, .1);
     box-shadow: inset 0 0 0 1px rgba(56, 139, 253, .4);
     border-radius: 4px;
-    font-weight: bold;
+    font-weight: 800;
+    font-size: 1.4rem;
     color: #79c0ff;
     height: 90px;
     display: flex;
@@ -91,7 +96,7 @@ h1 {
     background-color: #0d1117;
     border: 2px solid #30363d;
     max-width: 400px;
-    margin: 0 auto 50px;
+    margin: 0 auto 20px;
     max-height: 300px;
     overflow-y: auto;
     padding: 20px;
@@ -110,9 +115,18 @@ h1 {
     display: flex;
 }
 
+.history-wrap.hidden,
+.history-wrap.hidden pre,
+.history-wrap.hidden pre code {
+    height: 0;
+    padding: 0;
+    margin: 0;
+}
+
 .history-wrap code {
     color: #e83e8c;
     font-size: 12px;
+    transition: .3s all;
 }
 
 pre {
@@ -169,6 +183,17 @@ button {
 .tumblers {
     max-width: 400px;
     margin: 0 auto;
+    padding: 5px;
+}
+
+.tumbler {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tumbler-descriptions {
+    margin-bottom: 0;
 }
 
 .tumbler input[type="checkbox"] {
@@ -186,6 +211,7 @@ button {
             0 5px 20px rgba(0,0,0,.5),
             inset 0 0 15px rgba(0,0,0,.2);
     cursor: pointer;
+    margin-right: 15px;
 }
 
 .tumbler input[type="checkbox"]::before {
@@ -236,10 +262,6 @@ button {
     transition: .5s all;
 }
 
-.py-5 {
-    padding-top: 6rem !important;
-}
-
 .blocked-btn,
 .blocked-btn:hover,
 .blocked-btn:focus,
@@ -260,6 +282,11 @@ button {
     box-shadow: inset 0 0 0 1px rgba(142, 148, 154, .3);
 }
 
+.title {
+    padding: 3rem 0;
+    margin-bottom: 0;
+}
+
 @media (max-width: 575px) {
     h1 {
         font-size: 1.5rem;
@@ -267,6 +294,17 @@ button {
     .btn-default {
         height: 20vw;
         max-height: 90px;
+    }
+}
+
+@media (max-width: 1199px) {
+    .tumbler-descriptions,
+    .description {
+        display: none;
+    }
+
+    .tumbler-sound {
+        margin-bottom: 0;
     }
 }
 
