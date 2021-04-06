@@ -34,8 +34,8 @@ class Calculator {
         wrap = null,
         historyDefaultLabel = 'History is empty.',
         lineNumber = 0,
-        simbols = ['<', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-        eventKeys = ['Backspace', 'Enter', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+        simbols = ['<', '=', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '%'],
+        eventKeys = ['Backspace', 'Enter', '+', '-', '*', 'c', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '%'],
         sounds = {
             click: './sounds/click.mp3',
             error: './sounds/error.mp3',
@@ -276,6 +276,7 @@ class Calculator {
         document.addEventListener('keydown', (e) => {
             
             let val = e.key;
+            console.log(val)
             if (val >= 0 && val <= 9 || val == '+' || val == '-' || val == '*' || val == '/' || val == '.') {
                 this.res.value += val;
             }
