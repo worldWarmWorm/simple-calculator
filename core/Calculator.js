@@ -155,10 +155,12 @@ class Calculator {
 
         this.soundModeTumbler.addEventListener('change', () => {
             if (this.soundModeTumbler.getAttribute('data-sound-mode') === soundModes.mute) {
+                this.makeSounds(this.sounds.dark);
                 this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.sound);
                 this.soundModeTumbler.classList.add('checked');
                 localStorage.setItem('sound-mode', soundModes.sound);
             } else {
+                this.makeSounds(this.sounds.light);
                 this.soundModeTumbler.setAttribute('data-sound-mode', soundModes.mute);
                 this.soundModeTumbler.removeAttribute('class');
                 localStorage.setItem('sound-mode', soundModes.mute);
@@ -170,10 +172,12 @@ class Calculator {
                 this.calculator.classList.remove('hidden-keyboard-description') :
                 this.calculator.classList.add('hidden-keyboard-description');
             if (this.keyboardTumbler.getAttribute('data-keyboard') === keyboardModes.off) {
+                this.makeSounds(this.sounds.dark);
                 this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.on);
                 this.keyboardTumbler.classList.add('checked');
                 localStorage.setItem('keyboard-mode', keyboardModes.on);
             } else {
+                this.makeSounds(this.sounds.light);
                 this.keyboardTumbler.setAttribute('data-keyboard', keyboardModes.off);
                 this.keyboardTumbler.removeAttribute('class');
                 localStorage.setItem('keyboard-mode', keyboardModes.off);
@@ -182,19 +186,19 @@ class Calculator {
 
         this.themeTumbler.addEventListener('change', () => {
             if (this.themeTumbler.getAttribute('data-theme') === themes.light) {
+                this.makeSounds(this.sounds.dark);
                 document.body.classList.remove(themes.light);
                 document.body.classList.add(themes.dark);
                 localStorage.setItem('theme', themes.dark);
                 this.themeTumbler.classList.add('checked');
                 this.themeTumbler.setAttribute('data-theme', themes.dark);
-                this.makeSounds(this.sounds.dark);
             } else {
+                this.makeSounds(this.sounds.light);
                 document.body.classList.remove(themes.dark);
                 document.body.classList.add(themes.light);
                 localStorage.setItem('theme', themes.light);
                 this.themeTumbler.setAttribute('data-theme', themes.light);
                 this.themeTumbler.removeAttribute('class');
-                this.makeSounds(this.sounds.light);
             }
         });
     }
@@ -210,9 +214,9 @@ class Calculator {
                 this.resetDefaultHistoryLabel();
             }
             if (val === simbol) {
+                this.makeSounds(this.sounds.click);
                 this.lineNumber++;
                 this.history.innerHTML += `${this.lineNumber}| Pressed "${val}"\n`;
-                this.makeSounds(this.sounds.click);
             }
             if (this.history.innerHTML) {
                 this.resetHistoryBtn.classList.remove('blocked-btn');
@@ -231,9 +235,9 @@ class Calculator {
                 this.resetDefaultHistoryLabel();
             }
             if (val === simbol) {
+                this.makeSounds(this.sounds.click);
                 this.lineNumber++;
                 this.history.innerHTML += `${this.lineNumber}| Pressed "${val}"\n`;
-                this.makeSounds(this.sounds.click);
             }
             if (this.history.innerHTML) {
                 this.resetHistoryBtn.classList.remove('blocked-btn');
@@ -328,10 +332,10 @@ class Calculator {
         this.resetHistoryBtn.addEventListener('click', () => {
             let answer = window.confirm(ask);
             if (answer && this.res) {
+                this.makeSounds(this.sounds.reset);
                 this.setDefaultHistoryLabel();
                 this.resetHistoryBtn.classList.add('blocked-btn');
                 this.lineNumber = 0;
-                this.makeSounds(this.sounds.reset);
             }
         });
     }
